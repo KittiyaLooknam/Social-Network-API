@@ -1,15 +1,5 @@
-const express = require('express');
-const db = require("./config/connection");
-const routes = require("./routes");
+const { connect, connection } = require('mongoose');
 
-const PORT = 3001;
-const app = express();
+connect('mongodb://127.0.0.1:27017/socialnetwork');
 
-app.use(express.urlencoded({ extended: true }));
-// parse incoming requests with JSON payloads
-app.use(express.json());
-app.use(routes);
-
-db.once('open', () => {
-    app.listen(PORT, () => console.log(`API server running on port ${PORT}!`));
-});
+module.exports = connection;

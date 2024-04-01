@@ -1,5 +1,5 @@
-const { Schema, model } = require("momgoose");
-const ReactionSchema = require("./Reactions");
+const { Schema, model } = require("mongoose");
+const ReactionSchema = require("./Reaction");
 const dateFormat = require('./utils/dateFormat');
 
 const ThoughtsSchema = new Schema(
@@ -12,7 +12,7 @@ const ThoughtsSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now(),
+            default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
         username: {
@@ -32,10 +32,10 @@ const ThoughtsSchema = new Schema(
     }
 );
 // Get total count of reactions on retrieval
-ThoughtsSchema.virtual('reactionCount').get(function () {
-    return this.reactions.reduce((total, reaction) => total + reaction.reactionType.length, 0)
+thoughtSchema.virtual('reactionCount').get(function () {
+    return this.reactions.length;
 });
 
-const ThoughtsModel = model('thoughts', ThoughtsSchema);
+const Thought = model('Thought', thoughtSchema);
 
-module.exports = ThoughtsModel;
+module.exports = Thought;

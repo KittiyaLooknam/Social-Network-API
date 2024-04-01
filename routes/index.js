@@ -1,7 +1,5 @@
-const route = require("express").Router();
+const router = require("express").Router();
 const apiRountes = require( "./api");
-const router = require("./api/thought-routes");
-// Handles routing for all the different pages of our app.
 
 router.use("/api", apiRountes);
 

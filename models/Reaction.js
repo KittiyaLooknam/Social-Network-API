@@ -1,4 +1,4 @@
-import { Schema, Types } from 'mongoose';
+const { Schema } = require("mongoose");
 // Import dateFormat if it's defined elsewhere
 const dateFormat = require('../utils/dateFormat');
 
