@@ -1,11 +1,11 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 const moment = require("moment");
 
 // Define Reaction schema
 const ReactionSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId()
+        default: () => new Schema.Types.ObjectId()
     },
     reactionBody: {
         type: String,
@@ -33,13 +33,11 @@ const ThoughtsSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now
-        }
+        },
         username: {
             type: String,
             required: true
         },
-        // use the User model in our ref property
-        // this will create a many-to-many relationship between Users and Thoughts models
         reactions: [ReactionSchema]
     },
     {
