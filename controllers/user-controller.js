@@ -5,6 +5,7 @@ const userController = {
     getAllUsers(req, res) {
         User.find({})
             .select('-__v')
+            .sort('_id: -1')
             .then((dbUserData) => res.json(dbUserData))
             .catch((err) => {
                 console.log(err);
@@ -14,7 +15,7 @@ const userController = {
   
     // get single user by id
     getSingleUser(req, res) {
-      User.findOne({ _id: req.params.userId })
+      User.findOne({ _id: params.id })
           .select('-__v')
           .populate("friends")
           .populate("thoughts")
@@ -40,7 +41,7 @@ const userController = {
     // update user by id
     updateUser(req, res) {
         User.findByIdAndUpdate(
-            { _id: req.params.userId},
+            { _id: params.id },
             {$set: req.body},
             {runValidators: true, new: true}
         )

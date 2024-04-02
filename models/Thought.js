@@ -1,23 +1,42 @@
 const { Schema, model } = require("mongoose");
-const ReactionSchema = require("./Reaction");
-const dateFormat = require('./utils/dateFormat');
+const moment = require("moment");
+
+// Define Reaction schema
+const ReactionSchema = new Schema({
+    reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId()
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        maxlength: 280
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
 const ThoughtsSchema = new Schema(
     {
         thoughtText: {
             type: String,
-            required: 'You need to provide a text for your thoughts!',
+            required: true,
             minlength: 1,
             maxlength: 280
         },
         createdAt: {
             type: Date,
-            default: Date.now,
-            get: timestamp => dateFormat(timestamp)
-        },
+            default: Date.now
+        }
         username: {
             type: String,
-            required: 'You must provide a user name'
+            required: true
         },
         // use the User model in our ref property
         // this will create a many-to-many relationship between Users and Thoughts models
@@ -32,10 +51,10 @@ const ThoughtsSchema = new Schema(
     }
 );
 // Get total count of reactions on retrieval
-thoughtSchema.virtual('reactionCount').get(function () {
+ThoughtsSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
 
-const Thought = model('Thought', thoughtSchema);
+const Thought = model('Thought', ThoughtsSchema);
 
 module.exports = Thought;

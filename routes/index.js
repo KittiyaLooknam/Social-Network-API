@@ -1,11 +1,11 @@
 const router = require("express").Router();
-const apiRountes = require( "./api");
+const apiRoutes = require("./api"); // Ensure correct path
 
-router.use("/api", apiRountes);
+router.use("/api", apiRoutes);
 
 router.use((req, res) => {
     // If no API routes are hit, send the user to the home page 
-    return res.send("Wrong Rount!");
+    return res.send("Wrong Route!");
 });
 
 module.exports = router;
