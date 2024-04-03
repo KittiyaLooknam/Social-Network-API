@@ -5,7 +5,7 @@ const { getAllThoughts,
     updateThought,
     deleteThought,
     addReaction,
-    removeReaction } = require('../../controllers/thought-controller');
+    deleteReaction } = require('../../controllers/thought-controller');
 
 // /api/thoughts
 router

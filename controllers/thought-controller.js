@@ -1,9 +1,9 @@
-const { thought, User } = require('../models');
+const { Thought, User } = require('../models');
 
 const thoughtController = {
     // Get all thoughts
     getAllThoughts(req, res) {
-        thought.find({})
+        Thought.find({})
             .select('-__v')
             .sort({ createAt: -1 })
             .then(dbThoughtData => res.json(dbThoughtData))
@@ -15,7 +15,7 @@ const thoughtController = {
 
     // Get a single thought by its id
     getThoughtById({ params }, res) {
-        thought.findOne({ _id: params.id })
+        Thought.findOne({ _id: params.id })
             .select('-__v')
             .then(dbThoughtData => {
                 if (!dbThoughtData) {
@@ -31,7 +31,7 @@ const thoughtController = {
 
     // Create a new thought
     createThought({ body }, res) {
-        thought.create(body)
+        Thought.create(body)
             .then(({ _id }) => {
                 return user.findOneAndUpdate(
                     { _id: body.userId },
@@ -50,7 +50,7 @@ const thoughtController = {
 
     //   Update a thought by its id
     updateThought({ params, body }, res) {
-        thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
+        Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
             .then((dbThoughtData) => {
                 if (!dbThoughtData) {
                     return res.status(404).json({ message: "No Thought found with this id!" });
@@ -62,7 +62,7 @@ const thoughtController = {
 
     // Delete a thought by its id
     deleteThought({ params, body }, res) {
-        thought.findOneAndDelete({ _id: params.id }) // Changed to findOneAndDelete to directly delete the thought
+        Thought.findOneAndDelete({ _id: params.id }) // Changed to findOneAndDelete to directly delete the thought
             .then(deletedThought => {
                 if (!deletedThought) {
                     return res.status(404).json({ message: "No Thought with this id!" });
@@ -87,7 +87,7 @@ const thoughtController = {
     },
     // POST create a reaction stored in a single thought's reactions array field
     addReaction({ params, body }, res) {
-        thought.findOneAndUpdate(
+        Thought.findOneAndUpdate(
             { _id: params.thoughtId },
             { $push: { reactions: body } },
             { new: true, runValidators: true }
@@ -100,8 +100,8 @@ const thoughtController = {
             }).catch(err => res.json(err))
     },
     // DELETE to pull and remove a reaction by the reactionId,
-    removeReaction({ params, body }, res) {
-        thought.findOneAndUpdate(
+    deleteReaction({ params, body }, res) {
+        Thought.findOneAndUpdate(
             { _id: params.thoughtId },
             { $pull: { reactions: { reactionId: params.reactionId } } },
             { new: true }

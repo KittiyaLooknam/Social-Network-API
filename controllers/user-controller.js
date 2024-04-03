@@ -1,4 +1,4 @@
-const { User, Thought }  = require('../models');
+const { User }  = require('../models');
 // import the User and Thought model from
 const userController = {
     // get all users
@@ -73,20 +73,23 @@ const userController = {
 
     // add friend to a user's friend list
     addFriend(req, res) {
-        User.findByIdAndUpdate(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
             { $addToSet: { friends: req.params.friendId } },
-            { runValidators: true, new: true }
+            { new: true }
         )
-            .then((dbUserData) => res.json(dbUserData))
+            .then((dbUserData) => { 
+                console.log(dbUserData);
+                res.json(dbUserData)})
+                
             .catch((err) => {
                 console.log(err);
                 return res.status(400).json(err);
             });
     },
 
-    // remove friend from the user's friend list
-    removeFriend(req, res) {
+    // delete friend from the user's friend list
+    deleteFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
             { $pull: { friends: req.params.friendId } },
